@@ -1,15 +1,38 @@
-import axios from 'axios';
+import Search from './models/Search';
+import * as searchView from './views/searchView';
+import { elements } from './views/base';
 
-async function getResults(query) {
-  
-try {
-    const res = await axios(`https://forkify-api.herokuapp.com/api/search?q=${query}`)
-    const recipes = res.data.recipes;
-    console.log(recipes);
-} catch(error) {
-    alert(error);
+/* Global state of the app
+* - Search object
+* - Current recipe object 
+* - Shopping list object 
+* - Liked recipes */
+
+const state =  {}
+
+const controlSearch = async () => {
+    // 1) get query from view
+    const query = searchView.getInput();
+
+    console.log(query);
+
+    if(query) {
+        //2) New search object and add to state
+        state.search = new Search(query);
+        
+        //3) Prepare UI for results
+
+
+        //4) Search for recipes
+        await state.search.getResults();
+
+        //5) Render results on UI
+        searchView.renderResults(state.search.result);
+    
+    }
 }
 
-}
-
-getResults('pizza');
+elements.searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    controlSearch();
+});
