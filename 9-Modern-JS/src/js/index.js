@@ -13,7 +13,7 @@ const state =  {}
 
 const controlSearch = async () => {
     // 1) get query from view
-    //const query = searchView.getInput();
+    const query = searchView.getInput();
     const query = 'pizza';
 
 
@@ -29,8 +29,9 @@ const controlSearch = async () => {
         renderLoader(elements.searchRes);
 
         try {
-            //4) Search for recipes
+            //4) Get recipe data and parse ingredients
             await state.search.getResults();
+            state.recipe.parseIngredients();
 
             //5) Render results on UI
             clearLoader();
@@ -48,7 +49,7 @@ elements.searchForm.addEventListener('submit', e => {
 });
 
 // TESTING
-windows.addEventListener('load', e => {
+window.addEventListener('load', e => {
     e.preventDefault();
     controlSearch();
 });
@@ -82,7 +83,7 @@ const controlRecipe = async () => {
 
         // Create recipe object
         state.recipe = new Recipe(id);
-        windows.r = state.recipe;
+        window.r = state.recipe;
 
         try {
             // Get recipe data
