@@ -53,8 +53,11 @@ elements.searchForm.addEventListener('submit', e => {
 //     e.preventDefault();
 //     controlSearch();
 // });
+console.log('test1');
+console.log('elements.searchResPages: ', elements.searchResPages);
 
 elements.searchResPages.addEventListener('click', e => {
+    console.log('test2');
     console.log(e.target);
     const btn = e.target.closest('.btn-inline');
     
@@ -80,6 +83,7 @@ const controlRecipe = async () => {
 
     if(id) {
         //Prepare UI
+        recipeView.clearRecipe();
         renderLoader(elements.recipe);
 
         // Create recipe object
