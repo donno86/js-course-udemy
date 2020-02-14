@@ -13,6 +13,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
 * - Liked recipes */
 
 const state =  {}
+window.state = state;
 
 const controlSearch = async () => {
     // 1) get query from view
@@ -135,8 +136,22 @@ const controlList = () => {
     });
 }
 
+// Handle delete and update list item events
+elements.shopping.addEventListener('click', e => {
+    
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+    
+    // Handle the delete button
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state
+        state.list.deleteItem(id);
 
-//Handling recipe btn clicks
+        //Delete from UI
+        listView.deleteItem(id);
+    }
+}); 
+
+// Handling recipe btn clicks
 elements.recipe.addEventListener('click', e => {
     if (e.target.matches('.btn-decrease, .btn-decrease *')) {
       if (state.recipe.servings > 1) {
