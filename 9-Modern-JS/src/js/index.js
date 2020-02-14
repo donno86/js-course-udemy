@@ -53,15 +53,13 @@ elements.searchForm.addEventListener('submit', e => {
 //     e.preventDefault();
 //     controlSearch();
 // });
-console.log('test1');
-console.log('elements.searchResPages: ', elements.searchResPages);
 
 elements.searchResPages.addEventListener('click', e => {
-    console.log('test2');
-    console.log(e.target);
+    //console.log('test2');
+    //console.log(e.target);
     const btn = e.target.closest('.btn-inline');
     
-    console.log(btn);
+    //console.log(btn);
     if(btn){
         const goToPage = parseInt(btn.dataset.goto, 10);
         searchView.clearResults();
@@ -86,6 +84,10 @@ const controlRecipe = async () => {
         recipeView.clearRecipe();
         renderLoader(elements.recipe);
 
+        //Highlight selected search item
+        if (state.search) {
+            searchView.highlightedSelected(id);
+        }
         // Create recipe object
         state.recipe = new Recipe(id);
 
@@ -116,4 +118,4 @@ const controlRecipe = async () => {
     }
 };
 
-['hashchanged','load'].forEach(event => window.addEventListener(event, controlRecipe));
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
