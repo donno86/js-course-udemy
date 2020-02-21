@@ -1,0 +1,5 @@
+- Implement btn to delete all shopping items
+- Implement functionalitey to manually add/print items to shopping list\
+- Save shopping list data in localstorage
+- Improve error handling
+- (Somehow add/remove recipes of your own?)
