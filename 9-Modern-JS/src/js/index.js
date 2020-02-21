@@ -2,6 +2,7 @@ import Search from './models/Search';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import Recipe from './models/Recipe';
 import List from './models/List';
 import { elements, renderLoader, clearLoader } from './views/base';
@@ -78,7 +79,6 @@ elements.searchResPages.addEventListener('click', e => {
 
 // console.log(r);
 
-
 const controlRecipe = async () => {
     const id = window.location.hash.replace('#', '');
     console.log(id);
@@ -110,10 +110,14 @@ const controlRecipe = async () => {
             // Render recipe
             //console.log(state.recipe);
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
 
 
         } catch {
+            console.log(err);
             alert('Error processing recipe!~');
         }
         
@@ -158,6 +162,8 @@ elements.shopping.addEventListener('click', e => {
 }); 
 
 /* LIKE CONTROLLER */
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
 const controlLike = () => {
     const currentID = state.recipe.id;
     if(!state.likes) {
@@ -174,9 +180,12 @@ const controlLike = () => {
             state.recipe.img   
         );
         
-        // Toggle like button
-        // add like to UI list
-                console.log(state.likes)
+    // Toggle like button
+    likesView.toggleLikeBtn(true);
+
+    // add like to UI list
+    likesView.renderLike(newLike);
+
 
     // User has liked current recipe
 
@@ -185,11 +194,13 @@ const controlLike = () => {
         state.likes.deleteLike(currentID);
 
         // Toggle the like button
+        likesView.toggleLikeBtn(false);
 
         // Remove like from UI list
-        console.log(state.likes)
+        likesView.deleteLike(currentID);
 
     }
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
 
 // Handling recipe btn clicks
