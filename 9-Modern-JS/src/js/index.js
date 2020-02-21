@@ -162,8 +162,9 @@ elements.shopping.addEventListener('click', e => {
 }); 
 
 /* LIKE CONTROLLER */
-state.likes = new Likes();
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+// state.likes = new Likes();
+// likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 const controlLike = () => {
     const currentID = state.recipe.id;
     if(!state.likes) {
@@ -202,6 +203,15 @@ const controlLike = () => {
     }
     likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
+
+// Restore liked recipes on page load
+window.addEventListener('load', () => {
+    state.likes = new Likes();
+    state.likes.readStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 
 // Handling recipe btn clicks
 elements.recipe.addEventListener('click', e => {
