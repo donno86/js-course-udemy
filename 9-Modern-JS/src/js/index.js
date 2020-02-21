@@ -15,15 +15,10 @@ import Likes from './models/Likes';
 * - Liked recipes */
 
 const state =  {}
-window.state = state;
 
 const controlSearch = async () => {
     // 1) get query from view
     const query = searchView.getInput();
-    //const query = 'pizza';
-
-
-    console.log(query);
 
     if(query) {
         //2) New search object and add to state
@@ -53,18 +48,9 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
-// TESTING
-// window.addEventListener('load', e => {
-//     e.preventDefault();
-//     controlSearch();
-// });
-
 elements.searchResPages.addEventListener('click', e => {
-    //console.log('test2');
-    //console.log(e.target);
     const btn = e.target.closest('.btn-inline');
     
-    //console.log(btn);
     if(btn){
         const goToPage = parseInt(btn.dataset.goto, 10);
         searchView.clearResults();
@@ -74,14 +60,8 @@ elements.searchResPages.addEventListener('click', e => {
 
 
 //RECIPE CONTROLLER
-// const r = new Recipe(46956);
-// r.getRecipe();
-
-// console.log(r);
-
 const controlRecipe = async () => {
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     if(id) {
         //Prepare UI
@@ -95,9 +75,6 @@ const controlRecipe = async () => {
         // Create recipe object
         state.recipe = new Recipe(id);
 
-        //TESTING
-        //window.r = state.recipe;
-
         try {
             // Get recipe data and parse ingredients
             await state.recipe.getRecipe();
@@ -108,20 +85,15 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
 
             // Render recipe
-            //console.log(state.recipe);
             clearLoader();
             recipeView.renderRecipe(
                 state.recipe,
                 state.likes.isLiked(id)
             );
 
-
         } catch {
-            console.log(err);
             alert('Error processing recipe!~');
         }
-        
-
     }
 };
 
@@ -143,7 +115,6 @@ const controlList = () => {
 
 // Handle delete and update list item events
 elements.shopping.addEventListener('click', e => {
-    
     const id = e.target.closest('.shopping__item').dataset.itemid;
     
     // Handle the delete button
@@ -162,9 +133,6 @@ elements.shopping.addEventListener('click', e => {
 }); 
 
 /* LIKE CONTROLLER */
-// state.likes = new Likes();
-// likesView.toggleLikeMenu(state.likes.getNumLikes());
-
 const controlLike = () => {
     const currentID = state.recipe.id;
     if(!state.likes) {
@@ -186,7 +154,6 @@ const controlLike = () => {
 
     // add like to UI list
     likesView.renderLike(newLike);
-
 
     // User has liked current recipe
 
@@ -230,8 +197,5 @@ elements.recipe.addEventListener('click', e => {
     } else if (e.target.matches('.recipe__live, .recipe__love *')) {
         // Like controller
         controlLike();
-    }
-  
+    }  
 });
-
-window.l = new List();
